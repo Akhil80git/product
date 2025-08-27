@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FoodHub - Online Food Ordering</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ff6b35;
+      --secondary: #2ec4b6;
+      --accent: #ff9f1c;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --success: #28a745;
+      --danger: #dc3545;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .user-info i {
+      font-size: 1rem;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .tab-btn {
+      padding: 10px 20px;
+      background-color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .tab-btn:hover {
+      background-color: var(--light-gray);
+    }
+    
+    .tab-btn.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    
+    .container h2 {
+      color: var(--dark);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .container h2 i {
+      color: var(--primary);
+    }
+    
+    .container p {
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+    
+    .role-selection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .role-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .role-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+    
+    .role-card i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .role-card h3 {
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    
+    .role-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #e55a2b;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #29a99a;
+      transform: translateY(-2px);
+    }
+    
+    .btn-full {
+      width: 100%;
+    }
+    
+    .message {
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+    
+    .message.success {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: var(--success);
+      border-left: 4px solid var(--success);
+    }
+    
+    .message.error {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
+      border-left: 4px solid var(--danger);
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s;
+      position: relative;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-image {
+      height: 180px;
+      overflow: hidden;
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .product-info {
+      padding: 15px;
+    }
+    
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+    
+    .product-category {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    .product-description {
+      margin-bottom: 10px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    
+    .product-price {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    
+    .buy-btn {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      padding: 8px 15px;
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .buy-btn:hover {
+      background-color: #29a99a;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .order-details {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid var(--light-gray);
+      border-radius: 6px;
+    }
+    
+    .otp-display {
+      margin-top: 10px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .delivery-search {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .logout-section {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid var(--light-gray);
+    }
+    
+    .order-card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .role-selection-grid, .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-utensils"></i>
+        <h1>FoodHub</h1>
+      </div>
+      <div class="user-info">
+        <i class="fas fa-user-circle"></i>
+        <span id="current-user">Not logged in</span>
+      </div>
+    </header>
+    
+    <!-- Role Selection Section -->
+    <div class="container" id="role-selection-container">
+      <h2><i class="fas fa-users"></i> Choose Your Role</h2>
+      <p>Please select your role to proceed with registration or login.</p>
+      <div class="role-selection-grid">
+        <div class="role-card" onclick="selectRole('user')">
+          <i class="fas fa-user"></i>
+          <h3>User</h3>
+          <p>Order delicious food from your favorite restaurants.</p>
+        </div>
+        <div class="role-card" onclick="selectRole('delivery')">
+          <i class="fas fa-bicycle"></i>
+          <h3>Delivery Boy</h3>
+          <p>Manage and deliver orders to customers.</p>
+        </div>
+        <div class="role-card" onclick="selectRole('owner')">
+          <i class="fas fa-store"></i>
+          <h3>Owner</h3>
+          <p>Manage your restaurant and add products.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs (hidden initially) -->
+    <div class="tabs hidden" id="tabs-container">
+      <button class="tab-btn active" onclick="showTab('user-register-container')">
+        <i class="fas fa-user-plus"></i> Register
+      </button>
+      <button class="tab-btn" onclick="showTab('user-login-container')">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      <button class="tab-btn" id="products-btn" onclick="showTab('products-container')">
+        <i class="fas fa-hamburger"></i> Products
+      </button>
+      <button class="tab-btn" id="add-product-btn" onclick="showTab('add-product-container')">
+        <i class="fas fa-plus-circle"></i> Add Product
+      </button>
+      <button class="tab-btn" id="order-history-btn" onclick="showTab('order-history-container')">
+        <i class="fas fa-history"></i> Order History
+      </button>
+    </div>
+
+    <!-- User Register -->
+    <div class="container hidden" id="user-register-container">
+      <h2><i class="fas fa-user-plus"></i> User Register</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="userRegUsername">Username</label>
+          <input type="text" id="userRegUsername" placeholder="Enter username" required />
+        </div>
+        <div class="input-group">
+          <label for="userRegEmail">Email</label>
+          <input type="email" id="userRegEmail" placeholder="Enter email" required />
+        </div>
+        <div class="input-group">
+          <label for="userRegPassword">Password</label>
+          <input type="password" id="userRegPassword" placeholder="Enter password" required />
+        </div>
+        <div class="input-group">
+          <label for="userRegRole">Role</label>
+          <select id="userRegRole" disabled>
+            <option value="user">User</option>
+            <option value="delivery">Delivery Boy</option>
+            <option value="owner">Owner</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="userRegister()">
+        <i class="fas fa-user-plus"></i> Register User
+      </button>
+      <div id="userRegisterMessage"></div>
+    </div>
+
+    <!-- User Login -->
+    <div class="container hidden" id="user-login-container">
+      <h2><i class="fas fa-sign-in-alt"></i> User Login</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="userLoginEmail">Email</label>
+          <input type="email" id="userLoginEmail" placeholder="Enter email" required />
+        </div>
+        <div class="input-group">
+          <label for="userLoginPassword">Password</label>
+          <input type="password" id="userLoginPassword" placeholder="Enter password" required />
+        </div>
+        <div class="input-group">
+          <label for="userLoginRole">Role</label>
+          <select id="userLoginRole" disabled>
+            <option value="user">User</option>
+            <option value="delivery">Delivery Boy</option>
+            <option value="owner">Owner</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="userLogin()">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      <div id="userLoginMessage"></div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="container hidden" id="products-container">
+      <h2><i class="fas fa-hamburger"></i> Products</h2>
+      <button class="btn btn-secondary" onclick="fetchProducts()">
+        <i class="fas fa-sync-alt"></i> Load Products
+      </button>
+      <div class="products-grid" id="products-list"></div>
+      <div id="productsMessage"></div>
+    </div>
+
+    <!-- Add Product (for owner only) -->
+    <div class="container hidden" id="add-product-container">
+      <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="productName">Name</label>
+          <input type="text" id="productName" placeholder="Product name" required />
+        </div>
+        <div class="input-group">
+          <label for="productPrice">Price (₹)</label>
+          <input type="number" id="productPrice" placeholder="Price" required />
+        </div>
+        <div class="input-group">
+          <label for="productCategory">Category</label>
+          <input type="text" id="productCategory" placeholder="Category" />
+        </div>
+        <div class="input-group">
+          <label for="productImage">Image URL</label>
+          <input type="text" id="productImage" placeholder="Image URL" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="productDescription">Description</label>
+        <input type="text" id="productDescription" placeholder="Description" />
+      </div>
+      <button class="btn btn-primary btn-full" onclick="addProduct()">
+        <i class="fas fa-plus"></i> Add Product
+      </button>
+      <div id="addProductMessage"></div>
+    </div>
+
+    <!-- Order History (for user only) -->
+    <div class="container hidden" id="order-history-container">
+      <h2><i class="fas fa-history"></i> Order History</h2>
+      <button class="btn btn-secondary" onclick="displayOrderHistory()">
+        <i class="fas fa-sync-alt"></i> Load Order History
+      </button>
+      <div id="order-history-list"></div>
+      <div id="orderHistoryMessage"></div>
+    </div>
+
+    <!-- Delivery Boy Interface -->
+    <div class="container hidden" id="delivery-container">
+      <h2><i class="fas fa-bicycle"></i> Delivery Boy</h2>
+      <div class="delivery-search">
+        <div class="input-group">
+          <label for="deliveryOtpSearch">Enter OTP</label>
+          <input type="text" id="deliveryOtpSearch" placeholder="Enter 4-digit OTP" required />
+        </div>
+        <button class="btn btn-primary" onclick="searchOrder()">
+          <i class="fas fa-search"></i> Submit
+        </button>
+      </div>
+      <div id="deliveryOrderDetails" class="order-details"></div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout-section">
+      <button class="btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+      <div id="logoutMessage"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://backendlogin-f7jd.onrender.com";
+    let currentUser = null;
+
+    // Helper functions
+    function showSuccess(el, msg) {
+      el.textContent = msg;
+      el.className = "message success";
+    }
+
+    function showError(el, msg) {
+      el.textContent = msg;
+      el.className = "message error";
+    }
+
+    // Local storage for orders (trial)
+    function getLocalOrders() {
+      return JSON.parse(localStorage.getItem("orders")) || [];
+    }
+
+    function saveLocalOrders(orders) {
+      localStorage.setItem("orders", JSON.stringify(orders));
+    }
+
+    // Store token and user info in localStorage
+    function saveAuth(token, user) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      currentUser = user;
+      updateUserInfo();
+    }
+    
+    function getAuthToken() {
+      return localStorage.getItem("token");
+    }
+    
+    function getCurrentUser() {
+      try {
+        return JSON.parse(localStorage.getItem("user")) || null;
+      } catch {
+        return null;
+      }
+    }
+    
+    function clearAuth() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("firstVisit");
+      // Do not clear orders and products for persistence in trial
+      currentUser = null;
+      updateUserInfo();
+    }
+    
+    function updateUserInfo() {
+      const user = getCurrentUser();
+      const userInfoEl = document.getElementById("current-user");
+      const productsBtn = document.getElementById("products-btn");
+      const addProductBtn = document.getElementById("add-product-btn");
+      const orderHistoryBtn = document.getElementById("order-history-btn");
+      const deliveryContainer = document.getElementById("delivery-container");
+      
+      if (user) {
+        userInfoEl.textContent = `${user.username || user.name || user.email} (${user.role || 'user'})`;
+        productsBtn.classList.remove("hidden");
+        if (user.role === "owner") {
+          addProductBtn.classList.remove("hidden");
+        } else {
+          addProductBtn.classList.add("hidden");
+        }
+        if (user.role === "user") {
+          orderHistoryBtn.classList.remove("hidden");
+        } else {
+          orderHistoryBtn.classList.add("hidden");
+        }
+        if (user.role === "delivery") {
+          deliveryContainer.classList.remove("hidden");
+          productsBtn.classList.add("hidden");
+          addProductBtn.classList.add("hidden");
+          orderHistoryBtn.classList.add("hidden");
+        } else {
+          deliveryContainer.classList.add("hidden");
+        }
+      } else {
+        userInfoEl.textContent = "Not logged in";
+        productsBtn.classList.add("hidden");
+        addProductBtn.classList.add("hidden");
+        orderHistoryBtn.classList.add("hidden");
+        deliveryContainer.classList.add("hidden");
+      }
+    }
+
+    // Check if first-time visitor
+    function isFirstVisit() {
+      return !localStorage.getItem("firstVisit");
+    }
+
+    // Mark as not first-time visitor
+    function markVisited() {
+      localStorage.setItem("firstVisit", "false");
+    }
+
+    // Show tabs and selected tab
+    function showTabsAndTab(tabId) {
+      document.getElementById("tabs-container").classList.remove("hidden");
+      showTab(tabId);
+    }
+
+    // Tab navigation
+    function showTab(tabId) {
+      document.querySelectorAll('.container').forEach(container => {
+        container.classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      for (let btn of tabButtons) {
+        if (btn.onclick.toString().includes(tabId)) {
+          btn.classList.add('active');
+          break;
+        }
+      }
+    }
+
+    // Handle role selection
+    function selectRole(role) {
+      markVisited();
+      document.getElementById("userRegRole").value = role;
+      document.getElementById("userLoginRole").value = role;
+      showTabsAndTab('user-register-container');
+    }
+
+    // ===== User Register =====
+    async function userRegister() {
+      const username = document.getElementById("userRegUsername").value.trim();
+      const email = document.getElementById("userRegEmail").value.trim();
+      const password = document.getElementById("userRegPassword").value;
+      const role = document.getElementById("userRegRole").value;
+
+      const messageEl = document.getElementById("userRegisterMessage");
+      messageEl.textContent = "";
+      messageEl.className = "message";
+      
+      if (!username || !email || !password) {
+        showError(messageEl, "Please fill all required fields.");
+        return;
+      }
+
+      try {
+        if (role === "delivery") {
+          const res = await fetch(API_BASE + "/api/delivery/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: username, email, password, phone: "" })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            showSuccess(messageEl, data.message || "Delivery boy registered successfully.");
+          } else {
+            showError(messageEl, data.message || "Failed to register delivery boy.");
+          }
+          return;
+        }
+
+        if (role === "owner") {
+          showError(messageEl, "Owner registration not allowed via this form. Use hardcoded credentials for login.");
+          return;
+        }
+
+        const res = await fetch(API_BASE + "/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password, role })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showSuccess(messageEl, data.message || "User registered successfully.");
+        } else {
+          showError(messageEl, data.message || "Registration failed.");
+        }
+      } catch (error) {
+        showError(messageEl, "Server error: " + error.message);
+      }
+    }
+
+    // ===== User Login =====
+    async function userLogin() {
+      const email = document.getElementById("userLoginEmail").value.trim();
+      const password = document.getElementById("userLoginPassword").value;
+      const role = document.getElementById("userLoginRole").value;
+
+      const messageEl = document.getElementById("userLoginMessage");
+      messageEl.textContent = "";
+      messageEl.className = "message";
+      
+      if (!email || !password) {
+        showError(messageEl, "Please fill all fields.");
+        return;
+      }
+
+      try {
+        let url = API_BASE + "/login";
+        let body = { email, password };
+        if (role === "delivery") {
+          url = API_BASE + "/api/delivery/login";
+        }
+        if (role === "owner") {
+          url = API_BASE + "/owner/login";
+        }
+
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          saveAuth(data.token, { ...data.user, ...data.deliveryBoy, role });
+          showSuccess(messageEl, "Login successful. Welcome " + (data.user?.username || data.deliveryBoy?.name || "Owner") + "!");
+          if (role === "user") showTab('products-container');
+          else if (role === "delivery") showTab('delivery-container');
+          else if (role === "owner") showTab('add-product-container');
+        } else {
+          showError(messageEl, data.message || "Login failed.");
+        }
+      } catch (error) {
+        showError(messageEl, "Server error: " + error.message);
+      }
+    }
+
+    // ===== Fetch Products =====
+    async function fetchProducts() {
+      const messageEl = document.getElementById("productsMessage");
+      messageEl.textContent = "";
+      messageEl.className = "message";
+      
+      try {
+        const res = await fetch(API_BASE + "/products");
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('products', JSON.stringify(data));
+          displayProducts(data);
+          showSuccess(messageEl, "Products loaded successfully.");
+        } else {
+          showError(messageEl, "Failed to load products.");
+        }
+      } catch (error) {
+        showError(messageEl, "Server error: " + error.message);
+      }
+    }
+
+    function displayProducts(products) {
+      const list = document.getElementById("products-list");
+      list.innerHTML = "";
+      
+      if (!products.length) {
+        list.innerHTML = "<p>No products found</p>";
+        return;
+      }
+      
+      products.forEach(p => {
+        const productEl = document.createElement("div");
+        productEl.className = "product-card";
+        productEl.innerHTML = `
+          <div class="product-image">
+            <img src="${p.image || 'https://via.placeholder.com/300x180?text=Food+Image'}" alt="${p.name}" />
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">${p.name}</h3>
+            <div class="product-category">${p.category || 'Uncategorized'}</div>
+            <p class="product-description">${p.description || 'No description available.'}</p>
+            <div class="product-price">₹${p.price}</div>
+          </div>
+          ${currentUser && currentUser.role === "user" ? '<button class="buy-btn" onclick="buyProduct(\'' + p._id + '\')">Buy</button>' : ''}
+        `;
+        list.appendChild(productEl);
+      });
+    }
+
+    // ===== Buy Product (Local for trial) =====
+    function buyProduct(productId) {
+      const products = JSON.parse(localStorage.getItem('products')) || [];
+      const product = products.find(p => p._id === productId);
+      if (!product) {
+        alert('Product not found');
+        return;
+      }
+
+      const paymentOption = prompt("Select payment option (UPI/Cash):");
+      if (!paymentOption || !["UPI", "Cash"].includes(paymentOption.toUpperCase())) {
+        alert("Please select a valid payment option (UPI or Cash).");
+        return;
+      }
+
+      const otp = Math.floor(1000 + Math.random() * 9000).toString();
+      const order = {
+        _id: Date.now().toString(),
+        userId: currentUser._id,
+        productId: product._id,
+        product: product,
+        paymentOption: paymentOption.toUpperCase(),
+        otp,
+        status: "pending"
+      };
+
+      const orders = getLocalOrders();
+      orders.push(order);
+      saveLocalOrders(orders);
+
+      showSuccess(document.getElementById("productsMessage"), "Order placed successfully! OTP: " + otp);
+      displayOrderHistory();
+    }
+
+    // ===== Add Product =====
+    async function addProduct() {
+      const name = document.getElementById("productName").value.trim();
+      const price = parseFloat(document.getElementById("productPrice").value);
+      const category = document.getElementById("productCategory").value.trim();
+      const image = document.getElementById("productImage").value.trim();
+      const description = document.getElementById("productDescription").value.trim();
+
+      const messageEl = document.getElementById("addProductMessage");
+      messageEl.textContent = "";
+      messageEl.className = "message";
+      
+      if (!name || isNaN(price)) {
+        showError(messageEl, "Please fill required fields correctly.");
+        return;
+      }
+
+      const product = { name, price, category, image, description };
+
+      try {
+        const res = await fetch(API_BASE + "/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${getAuthToken()}` },
+          body: JSON.stringify(product)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showSuccess(messageEl, "Product added successfully.");
+          // Clear form fields
+          document.getElementById("productName").value = "";
+          document.getElementById("productPrice").value = "";
+          document.getElementById("productCategory").value = "";
+          document.getElementById("productImage").value = "";
+          document.getElementById("productDescription").value = "";
+        } else {
+          showError(messageEl, data.message || "Failed to add product.");
+        }
+      } catch (error) {
+        showError(messageEl, "Server error: " + error.message);
+      }
+    }
+
+    // ===== Display Order History (Local for trial) =====
+    function displayOrderHistory() {
+      const messageEl = document.getElementById("orderHistoryMessage");
+      messageEl.textContent = "";
+      messageEl.className = "message";
+      
+      const orders = getLocalOrders().filter(order => order.userId === currentUser._id); // Filter by current user
+      const list = document.getElementById("order-history-list");
+      list.innerHTML = "";
+      
+      if (!orders.length) {
+        list.innerHTML = "<p>No orders found.</p>";
+        showSuccess(messageEl, "No orders yet.");
+        return;
+      }
+      
+      orders.forEach(order => {
+        const orderEl = document.createElement("div");
+        orderEl.className = "order-card";
+        orderEl.innerHTML = `
+          <h3>Order ID: ${order._id}</h3>
+          <p>Product: ${order.product.name}</p>
+          <p>Price: ₹${order.product.price}</p>
+          <p>Payment: ${order.paymentOption}</p>
+          <p>Status: ${order.status}</p>
+          <p>OTP: ${order.otp}</p>
+        `;
+        list.appendChild(orderEl);
+      });
+      showSuccess(messageEl, "Order history loaded successfully.");
+    }
+
+    // ===== Search Order by OTP (Delivery, Local for trial) =====
+    function searchOrder() {
+      const otp = document.getElementById("deliveryOtpSearch").value.trim();
+      const detailsEl = document.getElementById("deliveryOrderDetails");
+      detailsEl.innerHTML = "";
+      
+      if (otp.length !== 4 || isNaN(otp)) {
+        detailsEl.innerHTML = '<p class="message error">Please enter a valid 4-digit OTP.</p>';
+        return;
+      }
+
+      const orders = getLocalOrders();
+      const order = orders.find(o => o.otp === otp);
+      if (!order) {
+        detailsEl.innerHTML = '<p class="message error">No order found with this OTP.</p>';
+        return;
+      }
+
+      detailsEl.innerHTML = `
+        <h3>Order Details</h3>
+        <p>Order ID: ${order._id}</p>
+        <p>User ID: ${order.userId}</p>
+        <p>Product: ${order.product.name}</p>
+        <p>Price: ₹${order.product.price}</p>
+        <p>Payment: ${order.paymentOption}</p>
+        <p>Status: ${order.status}</p>
+      `;
+
+      if (order.status === "pending") {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-primary";
+        btn.innerHTML = '<i class="fas fa-check"></i> Mark as Delivered';
+        btn.onclick = () => markDelivered(order._id);
+        detailsEl.appendChild(btn);
+      }
+    }
+
+    // ===== Mark Order as Delivered (Local for trial) =====
+    function markDelivered(orderId) {
+      const orders = getLocalOrders();
+      const index = orders.findIndex(o => o._id === orderId);
+      if (index !== -1) {
+        orders[index].status = "delivered";
+        saveLocalOrders(orders);
+        alert("Order marked as delivered.");
+        searchOrder();
+      } else {
+        alert("Order not found.");
+      }
+    }
+
+    // ===== Logout =====
+    function logout() {
+      clearAuth();
+      document.getElementById("tabs-container").classList.add("hidden");
+      document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+      document.getElementById("role-selection-container").classList.remove("hidden");
+      const messageEl = document.getElementById("logoutMessage");
+      messageEl.innerHTML = '<p class="message success">Logged out successfully.</p>';
+    }
+
+    // On page load
+    window.onload = function() {
+      currentUser = getCurrentUser();
+      updateUserInfo();
+      if (currentUser) {
+        document.getElementById("role-selection-container").classList.add("hidden");
+        showTabsAndTab(
+          currentUser.role === "user" ? "products-container" :
+          currentUser.role === "owner" ? "add-product-container" :
+          "delivery-container"
+        );
+      } else if (isFirstVisit()) {
+        document.getElementById("role-selection-container").classList.remove("hidden");
+      } else {
+        showTabsAndTab("user-login-container");
+      }
+    };
+  </script>
+</body>
+</html>
